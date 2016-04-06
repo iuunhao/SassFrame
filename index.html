@@ -1,58 +1,333 @@
-<!DOCTYPE html><html lang="zh-cmn-Hans">
-<head>
-	<meta charset="UTF-8">
-	<meta name="keywords" content="">
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>常规移动模版</title>
-	<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-	<div class="r-rem">
-		<div class="box1"></div>
-		<div class="box2"></div>
-	</div>
-	<div class="r-i">
-		<i class="i r-i01">&#xe602;</i>
-		<i class="i r-i02">&#xe687;</i>
-		<i class="i r-i03">&#xe6c4;</i>
-		<i class="i ">&#xf005d;</i>
-		<i class="i ">&#xe669;</i>
-	</div>
-	<div class="r-column">
-		<div class="r-column01">1</div>
-		<div class="r-column02">2</div>
-		<div class="r-column03">1</div>
-		<div class="r-column04">1</div>
-	</div>
-	<div class="r-sprite">
-		<i class="i r-imgico01">星星</i>
-		<i class="i r-imgico02">问号</i>
-		<i class="i r-imgico03">花瓣</i>
-	</div>
-	<div class="r-txtBox">
-		<div class="r-txt">
-			<h1>标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</h1>
-			<p>文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述</p>
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>R模式SASS框架操作说明</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>R模式SASS框架</h1>
+					<h6>使用方法及其相关环境配置</h6>
+					<p>
+						<small>by <a href="http://iuunhao.com">维兰设计团队</a> / <a href="http://twitter.com/hakimel">@刘俊晧</a></small>
+					</p>
+				</section>
+
+				
+				<section>
+					<section>
+						<h2>系统环境配置</h2>
+						<p>因为本框架属于外挂插件需要以下相关依赖</p>
+					</section>
+					<section>
+						<h2>ruby</h2>
+						<p style="font-size:26px">SASS依赖于ruby，因此我们需要安装他，文件我已打包，您可以直接安装</p>
+						<p style="font-size:22px">（文件已经打包）</p>
+					</section>
+					<section>
+						<h2>node</h2>
+						<p style="font-size:26px">我们需要用node的包管理工具npm来安装SASS，所以请安装它。</p>
+						<p style="font-size:22px">（文件已经打包）</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							#### SASS安装方法
+							我们的主角，怎么会少了它呢？依次执行以下命令
+
+```
+	gem sources --remove https://rubygems.org/
+	gem sources -a https://ruby.taobao.org/
+	gem sources -l
+	https://ruby.taobao.org
+	gem install sass
+```
+						</script>
+						<a href="#" class="navigate-down">
+							<img width="50" height="50" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section data-markdown>
+						####compass（推荐安装）
+						sass的扩展库（类似javascript和jQuery的关系）
+						```
+							gem install compass
+						```
+					</section>
+					<section data-markdown>
+						##jade（推荐安装）
+						html模版引擎（类似php可以动态调取）
+						```
+							npm install jade --global
+						```
+					</section>
+					<section>
+						<h2>Sublime编辑器</h2>
+						<p>现代化前端开发神器</p>
+						<p>推荐几款我比较钟爱的编辑器：</p>
+						<ul>
+							<li>Sublime</li>
+							<li>Brackets</li>
+							<li>Vim</li>
+							<li>Webstorm</li>
+						</ul>
+						
+					</section>
+				</section>
+
+				<section data-markdown>
+					####Sublime插件安装
+					<p style="font-size:18px">如果你用的Sublime Text2请在控制台执行以下命令</p>
+					
+					```
+						import urllib2,os;pf='Package Control.sublime-package';ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),'wb').write(urllib2.urlopen('http://sublime.wbond.net/'+pf.replace(' ','%20')).read())
+					```
+					<p style="font-size:18px">如果你用的Sublime Text3请在控制台执行以下命令</p>
+					```
+						import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())
+					```
+				</section>
+				
+				<section>
+					<section id="fragments">
+						<h2>必装插件</h2>
+						<ul>
+							
+						
+						<li class="fragment">Emment</li>
+						<li class="fragment">Local History</li>
+						<li class="fragment">Color Highighter</li>
+						<li class="fragment">SublimeOnSaveBuild</li>
+						<li class="fragment">scss</li>
+						<li class="fragment">compass</li>
+						<li class="fragment">CSScomb</li>
+						<li class="fragment">HTMLBeautify</li>
+						</ul>
+					</section>
+					
+						<section id="fragments">
+							<h2>选装插件</h2>
+							<ul>
+								
+							
+							<li class="fragment">jade</li>
+							<li class="fragment">jade build</li>
+							<li class="fragment">SVN</li>
+							<li class="fragment">SublimeOnSaveBuild</li>
+							<li class="fragment">Bracket Highlighter</li>
+							<li class="fragment">FileDiffs</li>
+							<li class="fragment">Git</li>
+							<li class="fragment">Java​Script Completions</li>
+							</ul>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+						</section>
+						</section>
+				<section data-markdown>
+					##Sublime用户配置<br>
+					<p style="font-size:18px">为了让Sublime更好的为我工作，以下配置为常用设置，覆盖即可。</p>
+					```
+						{
+	"auto_complete": true,
+	"auto_complete_delay": 10,
+	"auto_indent": true,
+	"auto_match_enabled": true,
+	"bold_folder_labels": true,
+	"caret_extra_bottom": 0,
+	"caret_extra_top": 0,
+	"caret_extra_width": 2,
+	"caret_style": "smooth",
+	"centurion_color_blue": false,
+	"centurion_color_grey": false,
+	"centurion_color_orange": false,
+	"centurion_color_red": false,
+	"centurion_color_yellow": false,
+	"centurion_tab_close_buttons": false,
+	"centurion_tab_scrolling": false,
+	"default_encoding": "UTF-8",
+	"draw_indent_guides": true,
+	"draw_minimap_border": false,
+	"draw_white_space": "selection",
+	"enable_tab_scrolling": false,
+	"fade_fold_buttons": true,
+	"font_face": "Anonymous Pro",
+	"font_size": 14,
+	"gutter": true,
+	"highlight_line": true,
+	"ignored_packages":
+	[
+	],
+	"indent_to_bracket": true,
+	"line_padding_bottom": 6,
+	"line_padding_top": 6,
+	"margin": 2,
+	"match_brackets": true,
+	"match_selection": true,
+	"match_tags": true,
+	"numix_folder_icons": true,
+	"overlay_scroll_bars": "enabled",
+	"save_on_focus_lost": false,
+	"spacegray_sidebar_font_large": true,
+	"spacegray_sidebar_tree_normal": true,
+	"spacegray_tabs_font_small": false,
+	"spell_check": true,
+	"tab_completion": true,
+	"tree_animation_enabled": true,
+	"trim_automatic_white_space": true,
+	"trim_trailing_white_space_on_save": false,
+	"word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?",
+	"word_wrap": true
+}
+					```
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						#### 以下内容贴入Emment的用户设置处（重要）
+						<p style="font-size:18px">本框架声明过多Mixins不好记住，于是我扩展了Emment的快速补全方法	</p>
+											
+						```
+{
+	"snippets":{
+		"scss":{
+		 	"abbreviations": {
+		 		 "r-position-absolute":"@include r-position-absolute(${1:top}, ${2:right}, ${3:bottom}, ${4:left}, ${5:zindex}); ",
+		 		 "r-position-relative":"@include r-position-relative(${1:top}, ${2:right}, ${3:bottom}, ${4:left}, ${5:zindex}); ",
+		 		 "r-position-fixed":"@include r-position-fixed(${1:top}, ${2:right}, ${3:bottom}, ${4:left}, ${5:zindex}); ",
+		 		 "r-inline-block":"@include r-inline-block(${1:}); ",
+		 		 "r-center":"@include r-center(${1:}); ",
+		 		 "r-clearfix":"@include r-clearfix; ",
+		 		 "r-ellipsis":"@include r-singleline-ellipsis(${1}); ",
+		 		 "r-opacity":"@include r-opacity(${1:.5}); ",
+		 		 "r-min-height":"@include r-min-height(${1:12}); ",
+		 		 "r-border-arrow":"@include r-border-arrow(${1:left},${2:20},#${3:333}); ",
+		 		 "r-css3-Autoprefixer":"@include r-css3-Autoprefixer(${1:property},${2:value}); ",
+		 		 "r-background":"@include r-background('${1:fileName}${2:.png}',${3:no},${4:center},${5:center}); ",
+		 		 "r-overflow-y":"@include r-overflow-y(${1:height}); ",
+		 		 "r-overflow-x":"@include r-overflow-x(${1:width}); ",
+		 		 "r-pxTorem":"r-pxTorem(${1:12}); ",
+		 		 "r-align":"@include r-align; ",
+		 		 "r-linear-gradient":"@include r-linear-gradient(${1:top},#${2:f80},#${3:f50}); ",
+		 		 "r-iecss":"behavior: url(iecss3.htc); ",
+		 		 "r-float":"@include r-float(${1:l}); ",
+		 		 "r-grayscale":"@include r-grayscale(${1:50%}); ",
+		 		 "r-sprite":"@include r-sprite(${1:ico1}); ",
+		 		 "r-edit":"@include r-edit; ",
+		 		 "r-media":"@include r-media(${1:large}){\n\t${2:css}\n}; ",
+		 		 "r-column":"@include r-column(${1:1/4}); ",
+		 		 "r-shift":"@include r-shift; ",
+		 		 "r-span":"@include r-span; ",
+		 		 "r-hover":"\n\t&:hover { cursor: pointer; ${1:}}\n\t${2:}\n",
+		 		 "rafter":"\n\t&:after { ${1:} } \n\t${2:}",
+		 		 "rbefore":"\n\t&:before { ${1:} } \n\t${2:}",
+		 		 "ri":"\n\t.${1:Class_Name} { ${2:} }\n",
+		 		 "r-after-ico":"\n\t&:after { content: ''; @include inline-block; position: absolute; margin: ${1:0}px ${2:0}px ${3:0}px ${4:0}px; width: ${5:20}px; height: ${6:20}px; ${7:} }\n",
+		 		 "r-transition":" transition: all .${1:4} ease-in-out;",
+		 		  "r-include":"@include ${1:Attribute}",
+			 	 "r-config":"http_path = '/'\n css_dir = 'sass'\n sass_dir = 'sass'\n images_dir = 'images'\n output_style = :compact\n # output_style = :compressed\n relative_assets = true\n line_comments = false\n # enable_sourcemaps = true\n sass_options = {:sourcemap => true}\n require 'autoprefixer-rails'\n on_stylesheet_saved do |file|\n \tcss = File.read(file)\n \tmap = file + '.map'\n \tif File.exists? map\n \t\tresult = AutoprefixerRails.process(css,\n \t\t\tfrom: file,\n \t\t\tto:   file,\n \t\t\tmap:  { prev: File.read(map), inline: false })\n \t\t\tFile.open(file, 'w') { |io| io << result.css }\n \t\t\tFile.open(map,  'w') { |io| io << result.map }\n \t\telse\n \t\tFile.open(file, 'w') { |io| io << AutoprefixerRails.process(css) }\n \tend\n end\n",
+			 	 "r-help":"┏＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿┒\n\nR模式文档查询及其说明\n\n很高兴您能看到本文档，我称它为R模式，因为所有方法定义都是按着原属性名称来命名的，因此在前面加了一个R来匹配这些快捷的方法，主要目的是为了防止覆盖emmet原声快捷键房的补全，你不用担心会误导你的习惯，因为你只需要用您的方式来编码即可，您只需要在属性前面加上R就可以匹配到我定义的所有的R方法，当然如如果不R模式也没关系，但是你要记住我的定义的属性的全拼即可，同样您不必担心属性很长，编码起来效率太低，因为你住需要输入前几个字母就可以匹配到方法，操作方法和Emmet的方法完全一样，因为这些都是那Emmet来扩展的。比如你需要写一个小图标可以这么操作： 你有这样一个类：\n\n.titile {  }\n\n你需要在他前面加入一个图标 你需要用 r-before-ico 方法  您之用在括号内输入rico 按下Tab键\n\n.titile { rico }\n\n即可生成以下内容，无需动你的鼠标，光标目前在[margin-left]的位置，输入你的数值，继续按下tab会跳到第二个值的位置，当然也许这些属性不能满足您的需要，当您在最后一个属性填写完成后按下tab后，光标目前的位置，你可以自定义你的属性（当然这个只是我自己定义的方法，也许不符合您的思想，还请见谅）\n\n.titile {\n\t&:after { content: ''; @include inline-block; position: absolute; margin: 0px 0px 0px 0px; width: 20px; height: 20px;  }\n}\n\n以下快捷键简写根据Ememet简写方式命名，注意大小写，输出简写直接Tab补全，含有多个属性依次按下Tab来跳转到对应属性进行填写。\n\n注：以下的括号只是为了让关键字高亮显示，不必在意。\n\nSCSS》\n\n\n[r-position-fixed]\t\t\t屏幕定位\t\t\t\t@include r-position-fixed(top, right, bottom, left, zindex); \n[r-position-relative]\t\t相对定位\t\t\t\t@include r-position-relative(top, right, bottom, left, zindex); \n[r-position-absolute]\t\t绝对定位\t\t\t\t@include r-position-absolute(top, right, bottom, left, zindex); \n[r-center]\t\t\t\t\t水平居中\t\t\t\t@include r-center(); | @include r-center(300px);\n[r-align]\t\t\t\t\t水平垂直居中\t\t\t@include r-align; \n[r-inline-block]\t\t\t兼容inline-block\t\t@include r-inline-block(); \n[r-float]\t\t\t\t\t浮动\t\t\t\t\t@include r-float(l); | @include r-float(r); \n[r-clearfix]\t\t\t\t清除浮动\t\t\t\t@include r-clearfix; \n[r-opacity]\t\t\t\t\t透明度\t\t\t\t@include r-opacity(.5); \n[r-min-height]\t\t\t\t最小高度\t\t\t\t@include r-min-height(100); \n[r-border-arrow]\t\t\t边框三角\t\t\t\t@include r-border-arrow(left,#333,20); \n[r-linear-gradient]\t\t\t渐变色\t\t\t\t@include r-linear-gradient(top,#f80,#f50); \n[r-grayscale]\t\t\t\t灰度\t\t\t\t\t@include r-grayscale(50%); \n[r-iecss]\t\t\t\t\tIECSS3外挂\t\t\tbehavior: url(iecss3.htc);\n[r-background]\t\t\t\t背景图\t\t\t\t@include r-background('ico1.png',no,left,top); \n[r-overflow-y]\t\t\t\t垂直滚动条\t\t\t@include r-overflow-y(100); \n[r-overflow-x]\t\t\t\t水平滚动条\t\t\t@include r-overflow-x(100); \n[r-ellipsis]\t\t\t\t字符截取\t\t\t\t@include r-singleline-ellipsis(10); \n[r-pxTorem]\t\t\t\t\t单位转换\t\t\t\tr-pxTorem(100); \n[r-sprite]\t\t\t\t\tSprite获取大小及定位\t@include r-sprite(ico1); \n[r-transition]\t\t\t\t动画\t\t\t\t\ttransition: all .4 ease-in-out;\n[r-edit]\t\t\t\t\t编辑模式\t\t\t\t@include r-edit; \n[r-media]:;\t\t\t\t\t响应式断点管理\t\t@include r-media(large){ ...}; \n[r-column]\t\t\t\t\t网格系统\t\t\t\t@include r-column(1/4); \n[r-shift]\t\t\t\t\t去除网格\t\t\t\t@include r-shift; \n[r-span]\t\t\t\t\t去除槽宽\t\t\t\t@include r-span; \n[r-hover]\t\t\t\t\thover快捷方法\n[rafter]\t\t\t\t\tafter快捷方法\n[rbefore]\t\t\t\t\tbefore快捷方法\n[ri]\t\t\t\t\t\t插入子类\n[r-after-ico]\t\t\t\tafter图标\n[r-before-ico]\t\t\t\tbefore图标\n[r-help]\t\t\t\t\tR模式帮助文档\n\nHTML》\n\n!rPC\t\t\t\t\t页面模版\n!!r\t\t\t\t\t\t常规移动页面模版\b \t\n!!!r\t\t\t\t\t微信内嵌页面模版\n\n\t\t\t\t\t↺ 2015.6.10\n\n┗￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣┛\n\n\n\n\n\n\n\n\n\n",
+			},
+ 		},
+ 		"html": {
+ 			"abbreviations": {
+ 				"!r": "!!!>(html[lang='zh-cmn-Hans']>head(meta[charset='UTF-8']+meta[name='keywords' content='']+meta[name='description' content='']+title{PC页面模版}+link[href=css/style.css]+link[rel='shortcut icon' href=favicon.ico])+body)",
+ 				"!!r": "!!!>(html[lang='zh-cmn-Hans']>head(meta[charset='UTF-8']+meta[name='keywords' content='']+meta[name='description' content='']+meta[name='viewport' content='width=device-width, initial-scale=1.0']+title{常规移动模版}+link[href=css/style.css])+body)",
+ 				"!!!r": "!!!>(html[lang='zh-cmn-Hans']>head(meta[charset='UTF-8']+meta[name='keywords' content='']+meta[name='description' content='']+meta[name='viewport' content='width=device-width, initial-scale=1.0']+title{微信内嵌页面模版}+link[href=css/style.css])+body)",
+ 				
+ 			}
+ 		},
+ 		"jade": {
+ 			"abbreviations": {
+ 				"!": "!!!>(html[lang='zh-cmn-Hans']>head(meta[charset='UTF-8']+title{$1:index}+link[href=sass/style.css])+body)",
+ 			}
+ 		},
+	}
+}
+						```
+					</script>
+				</section>
+
+				
+
+				<section id="transitions">
+					<h2>很感谢您能做完以上步骤</h2>
+					<p>
+						到这里所有的配置已经完成，需要你创建一个以scss结尾的文件，在文件里面输入rhelp 按下Tab来看我定义的所有方法。
+					</p>
+				</section>
+				<section style="text-align: left;">
+					<h1>感谢观看</h1>
+					<p style="font-size:24px">本框架只是一个初稿，里面也许会有不足之处，还望各路大神赐教。</p>
+					<p style="font-size:24px">（目前公开，如果没有问题，我会将它传于Github）</p>
+					<p>
+						- <a href="http://iuunhao.com">RENK－维兰设计团队</a><br>
+						- <a href="http://iuunhao.com">www.iuunhao.com</a>
+					</p>
+				</section>
+
+			</div>
+
 		</div>
-		<div class="r-txt2">
-			<h1 class="i">标题标题标题</h1>
-			<p>文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述</p>
-		</div>
-	</div>
-	<div class="r-media">响应式断点</div>
-	<div class="r-linear-gradient">渐变色</div>
-	<div class="r-grayscale">
-		<h3>灰度显示</h3>
-		<img src="http://photocdn.sohu.com/20110617/Img310526778.jpg" alt="">
-		<img class="r-grayscale-img" src="http://photocdn.sohu.com/20110617/Img310526778.jpg" alt="">
-		<img class="r-grayscale-img2" src="http://photocdn.sohu.com/20110617/Img310526778.jpg" alt="">
-	</div>
-	<div class="r-border-arrow">
-		<i class="r-arrow01"></i>
-		<i class="r-arrow02"></i>
-		<i class="r-arrow03"></i>
-		<i class="r-arrow04"></i>
-	</div>
-</body>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
 </html>
