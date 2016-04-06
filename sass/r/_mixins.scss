@@ -1,0 +1,479 @@
+@charset "utf-8";
+
+//------------------------------------------
+// A-1. inline-block［与模式关联］
+// 兼容IE的inline-block根据$legacy-support-for-ie自动匹配
+// Example. @include r-inline-block();
+// Example. @include r-inline-block(top);
+//------------------------------------------
+@mixin r-inline-block($alignment: middle) {
+  display: inline-block;
+  zoom: 1;
+  @if $alignment and $alignment != none {
+    vertical-align: $alignment;
+  }
+  @if $isPC {
+    *vertical-align: auto;
+    *display: inline;
+  }
+}
+
+//------------------------------------------
+// A-3. 浮动［与模式关联］
+// 兼容IE的float根据$isPC自动匹配
+// Example. @include r-float(l);
+//------------------------------------------
+@mixin r-float($side: l){
+	@if $side == 'l'{
+		float: left;
+	}@else if $side == 'r'{
+		float: right;
+	}@else{
+		float: none;
+	}
+	@if $isPC{
+		_display: inline;
+	}
+}
+
+//------------------------------------------
+// A-4. 水平居中［无关联］
+// 元素水平居中需要宽度，默认根据文档头部规定的$width宽度来实现居中
+// Example. @include r-center();
+// Example. @include r-center(980px);
+// Example. @include r-center(980px,0 20px 0 20px);
+//------------------------------------------
+@mixin r-center($width: $r-page-width) {
+	@if $width == '' and $r-page-width == ''{
+		display: block;
+		margin-left:auto;
+		margin-right:auto;
+	}@else{
+		width: $width;
+	}
+	
+}
+
+//------------------------------------------
+// A-5. 清浮动［与模式关联］
+// 如果文档头部 [$public-class] 为false建议使用此方法，本方法为纯css方法
+// Example. @include r-clearfix;
+//------------------------------------------
+@mixin r-clearfix {
+	&:before, &:after {
+		content: '';
+		display: table;
+	}
+	&:after { clear: both; }
+	@if $isPC {
+		*zoom: 1;
+		*height: 1%;
+	}
+}
+
+//------------------------------------------
+// A-6. 字符串截取［无关联］
+// Example. @include r-singleline-ellipsis;
+//------------------------------------------
+@mixin r-singleline-ellipsis($substract:0){
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100% - $substract;
+}
+%r-singleline-ellipsis {
+	@include r-singleline-ellipsis;
+}
+
+//------------------------------------------
+// A-7. 透明度兼容［与模式关联］
+// Example. @include r-opacity(.5);
+//------------------------------------------
+@mixin r-opacity($opacity) {
+	opacity: $opacity;
+	@if $isPC{
+		$opacity-ie: $opacity * 100;
+		filter: alpha(opacity=$opacity-ie); 
+	}
+}
+
+//------------------------------------------
+// A-8. 定位［无关联］
+// Example. @include r-position-absolute(10px);
+// Example. @include r-position-absolute(10px, 20px, 30px, 40px, 12);
+//------------------------------------------
+@mixin r-position-absolute ($top: auto, $right: auto, $bottom: auto, $left: auto, $zindex: auto) {
+	position: absolute;
+	@if ($top != top) and ($top != auto){
+		top: $top;
+	}
+	@if ($right != right) and ($right != auto){
+		right: $right;
+	}
+	@if ($bottom != bottom) and ($bottom != auto){
+		bottom: $bottom;
+	}
+	@if ($left != left) and ($left != auto){
+		left: $left;
+	}
+	@if ($zindex != zindex) and ($zindex != auto){
+		z-index: $zindex;
+	}
+}
+
+@mixin r-position-relative ($top: auto, $right: auto, $bottom: auto, $left: auto, $zindex: auto) {
+	position: relative;
+	@if ($top != top) and ($top != auto){
+		top: $top;
+	}
+	@if ($right != right) and ($right != auto){
+		right: $right;
+	}
+	@if ($bottom != bottom) and ($bottom != auto){
+		bottom: $bottom;
+	}
+	@if ($left != left) and ($left != auto){
+		left: $left;
+	}
+	@if ($zindex != zindex) and ($zindex != auto){
+		z-index: $zindex;
+	}
+}
+
+@mixin r-position-fixed ($top: auto, $right: auto, $bottom: auto, $left: auto, $zindex: auto) {
+	position: fixed;
+	@if ($top != top) and ($top != auto){
+		top: $top;
+	}
+	@if ($right != right) and ($right != auto){
+		right: $right;
+	}
+	@if ($bottom != bottom) and ($bottom != auto){
+		bottom: $bottom;
+	}
+	@if ($left != left) and ($left != auto){
+		left: $left;
+	}
+	@if ($zindex != zindex) and ($zindex != auto){
+		z-index: $zindex;
+	}
+}
+
+//------------------------------------------
+// A-9. 最小高度兼容［与模式关联］
+// Example. @include x-min-height(100);
+//------------------------------------------
+@mixin r-min-height($height) {
+	min-height: r-pxTorem($height);
+	@if $isPC {
+		_height: r-pxTorem($height);
+	}
+}
+
+//------------------------------------------
+// A-10. 边框三角［与模式关联］
+// 必须为块元素需要单位
+// Example. @include r-border-arrow(left, 20px ,red,);
+//------------------------------------------
+@mixin r-border-arrow($direction, $borderWidth ,$borderColor) {
+	$default-border-style: solid;
+	font-size: 0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	border-width: r-pxTorem($borderWidth);
+	border-style: $default-border-style;
+	_border-style: dashed;
+	border-color: transparent;
+
+	@if ($direction == top) {
+		border-bottom-color: $borderColor;
+		_border-bottom-style: $default-border-style;
+	}
+
+	@if ($direction == right) {
+		border-left-color: $borderColor;
+		_border-left-style: $default-border-style;
+	}
+
+	@if ($direction == bottom) {
+		border-top-color: $borderColor;
+		_border-top-style: $default-border-style;
+	}
+
+	@if ($direction == left) {
+		border-right-color: $borderColor;
+		_border-right-style: $default-border-style;
+	}
+
+	@if ($direction == topleft) {
+		border-top-color: $borderColor;
+		border-left-color: $borderColor;
+		_border-top-style: $default-border-style;
+		_border-left-style: $default-border-style;
+	}
+
+	@if ($direction == topright) {
+		border-top-color: $borderColor;
+		border-right-color: $borderColor;
+		_border-top-style: $default-border-style;
+		_border-right-style: $default-border-style;
+	}
+
+	@if ($direction == bottomleft) {
+		border-bottom-color: $borderColor;
+		border-left-color: $borderColor;
+		_border-bottom-style: $default-border-style;
+		_border-left-style: $default-border-style;
+	}
+
+	@if ($direction == bottomright) {
+		border-bottom-color: $borderColor;
+		border-right-color: $borderColor;
+		_border-bottom-style: $default-border-style;
+		_border-right-style: $default-border-style;
+	}
+}
+
+//------------------------------------------
+// A-11. 背景图［全局初始化属性关联］
+// 快速设置背景，重复，定位，只需文件名
+// $filenem: 图片名称如果不是images下的图片需要补全图片的上级目录，文档头部可以设置图片初始路径
+// Example. @include r-background('ico.png', no, left top);
+// Example. @include r-background(temp/ico.png, x, left top);
+//------------------------------------------
+@mixin r-background($filenem, $reepat: no-repeat, $left: left, $top: top) {
+	@if($reepat == x){
+		$reepat: repeat-x;
+	}@else if($reepat == y){
+		$reepat: repeat-y;
+	}@else if($reepat == n){
+		$reepat: repeat;
+	}@else{
+		$reepat: no-repeat;
+	}
+	background-image: url($imgur + $filenem );
+	background-repeat: $reepat;
+	background-position: $left $top;
+}
+
+// //------------------------------------------
+// // *. 按钮二态［无关联］
+// // Example. @include r-btn-color(blue, red, yellow);
+// //------------------------------------------
+// @mixin r-btn-hover($Attribute, $color) {
+// 	@include minxi-transition(1);
+// 	@if($Attribute == bac){
+// 		background-color: $color;
+// 	}@else if($Attribute == bdc){
+// 		border-color: $color;
+// 	}@else{
+// 		color: $color;
+// 	}
+// 	&:hover{
+// 		$light:50;	
+// 		$light-hover:30;	
+// 		cursor: pointer;
+// 		@if($Attribute == bac){
+// 			@if(lightness($color) > $light){
+// 				background-color: darken($color,$light-hover);
+// 			}@else{
+// 				background-color: lighten($color,$light-hover);
+// 			}
+// 		}@else if($Attribute == bdc){
+// 			@if(lightness($color) > $light){
+// 				border-color: darken($color,$light-hover);
+// 			}@else{
+// 				border-color: lighten($color,$light-hover);
+// 			}
+// 		}@else{
+// 			@if(lightness($color) > $light){
+// 				color: darken($color,$light-hover);
+// 			}@else{
+// 				color: lighten($color,$light-hover);
+// 			}
+// 		}
+// 	}
+// }	
+
+//------------------------------------------
+// A-12. 滚动条［无关联］
+// Example. @include r-overflow-y(100);
+//------------------------------------------
+@mixin r-overflow-y($height){
+    height: r-pxTorem($height) + px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    resize: vertical;
+}
+@mixin r-overflow-x($width){
+    width: r-pxTorem($width) + px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style:
+    -ms-autohiding-scrollbar;
+    -webkit-overflow-scrolling: touch;
+}
+
+//------------------------------------------
+// A-15. 灰度［无关联］
+// Example. @include r-grayscale;
+//------------------------------------------
+@mixin r-grayscale($bfb: 100%) {
+	-webkit-filter: grayscale($bfb);
+    filter: grayscale($bfb);
+    filter: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8ZmlsdGVyIGlkPSJncmF5c2NhbGUiPgogICAgICAgIDxmZUNvbG9yTWF0cml4IHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwLjMzMzMgMC4zMzMzIDAuMzMzMyAwIDAgMC4zMzMzIDAuMzMzMyAwLjMzMzMgMCAwIDAuMzMzMyAwLjMzMzMgMC4zMzMzIDAgMCAwIDAgMCAxIDAiLz4KICAgIDwvZmlsdGVyPgo8L3N2Zz4=#grayscale');
+	filter: gray;
+}
+
+
+//------------------------------------------
+// A-17. 自动sprite［无关联］
+// Example. @include r-grayscale;
+//------------------------------------------
+@mixin r-background-size($size) {
+  -webkit-background-size: $size;
+     -moz-background-size: $size;
+       -o-background-size: $size;
+          background-size: $size;
+}
+@mixin r-sprite($name) {
+	@if $isPC{
+		text-indent: -9999px;
+		display: inline-block;
+		background-repeat: no-repeat;
+		background-image: sprite-url($icon-url);
+		background-position: sprite-position($icon-url,$name);
+		height:image-height(sprite-file($icon-url, $name));
+		width: image-width(sprite-file($icon-url, $name));
+	}@else{
+		// @media (min--moz-device-pixel-ratio: 1.3), (-o-min-device-pixel-ratio: 2.6 / 2), (-webkit-min-device-pixel-ratio: 1.3), (min-device-pixel-ratio: 1.3), (min-resolution: 1.3dppx) {
+			text-indent: -9999px;
+			 display: inline-block;
+			 background-image: sprite-url($icon-url);
+	         background-position: 0 round(nth(sprite-position($icon-url, $name), 2) / 2);
+	         height:round(image-height(sprite-file($icon-url, $name)) / 2);
+	         width: round(image-width(sprite-file($icon-url, $name)) /2 );
+	         $double-width:ceil(image-width(sprite-path($icon-url)) / 2);
+	         $double-height:ceil(image-height(sprite-path($icon-url)) / 2);
+	         @include r-background-size($double-width $double-height);
+	    // }
+	}
+}
+.r-sprite{vertical-align: middle;}
+//------------------------------------------
+// A-18. 测试模式［无关联］
+// 便于调试
+// Example. @include r-edit;
+//------------------------------------------
+@mixin r-edit($color: black, $important: false) {
+	@if $important {
+		* { background: rgba($color, .05) !important; }
+	} @else {
+		* { background: rgba($color, .05); }
+	}
+}
+//------------------------------------------
+// A-19. 响应式断点管理［无关联］
+// Example. @include respond-to(small){...};
+//------------------------------------------
+// 
+$breakpoints: (
+  'small'  : 767px,
+  'medium' : 992px,
+  'large'  : 1200px
+);
+@mixin r-media($breakpoint) {
+	$value: map-get($breakpoints, $breakpoint);
+	@media (max-width: $value) {
+		@content;
+	}
+}
+
+
+//--------------------------------
+//B-10 渐变色
+//--------------------------------
+@mixin r-linear-gradient($arguments...) {
+	@if (length($arguments) == 2) {
+		$arguments: join(unquote("to bottom"), $arguments, comma);
+	}
+	$map: ("to top": bottom, 
+			"to right": left, 
+			"to bottom": top, 
+			"to left": right,
+			"0deg": bottom,
+			"90deg": left,
+			"180deg": top,
+			"270deg": right);
+	$iemap: ("to top": 0, 
+			"to right": 1, 
+			"to bottom": 0, 
+			"to left": 1,
+			"0deg": 0,
+			"90deg": 1,
+			"180deg": 0,
+			"270deg": 1);
+	$direction: inspect(nth($arguments, 1));
+	$colorlist: str-slice(inspect($arguments), str-length($direction) + 2);
+	$wkdirection: map-get($map, $direction);
+	$iedirection: map-get($iemap, $direction);
+	$startColor: null;
+	$endColor: null;
+	@if ($wkdirection == top) {
+		$startColor: nth(nth($arguments, 2), 1);
+		$endColor: nth(nth($arguments, 3), 1);
+	} @else if ($wkdirection == left) {
+		$startColor: nth(nth($arguments, 2), 1);
+		$endColor: nth(nth($arguments, 3), 1);
+	} @else if ($wkdirection == bottom) {
+		$startColor: nth(nth($arguments, 3), 1);
+		$endColor: nth(nth($arguments, 2), 1);
+	} @else if ($wkdirection == right) {
+		$startColor: nth(nth($arguments, 3), 1);
+		$endColor: nth(nth($arguments, 2), 1);
+	}
+    background: -webkit-linear-gradient($wkdirection, $colorlist);
+    background: linear-gradient($arguments);
+    @if $isPC{
+    	filter: unquote("progid:DXImageTransform.Microsoft.gradient(startcolorstr=#{$startColor},endcolorstr=#{$endColor},gradientType=#{$iedirection})");
+    }
+}
+// css3前缀补全
+$prefix-for-webkit:    true !default;
+$prefix-for-mozilla:   true !default;
+$prefix-for-microsoft: true !default;
+$prefix-for-opera:     true !default;
+$prefix-for-spec:      true !default; 
+
+@mixin prefixer ($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+
+    @if $prefix == webkit and $prefix-for-webkit == true {
+      -webkit-#{$property}: $value;
+    }
+    @else if $prefix == moz and $prefix-for-mozilla == true {
+      -moz-#{$property}: $value;
+    }
+    @else if $prefix == ms and $prefix-for-microsoft == true {
+      -ms-#{$property}: $value;
+    }
+    @else if $prefix == o and $prefix-for-opera == true {
+      -o-#{$property}: $value;
+    }
+    @else if $prefix == spec and $prefix-for-spec == true {
+      #{$property}: $value;
+    }
+    @else  {
+      @warn "Unrecognized prefix: #{$prefix}";
+    }
+  }
+}
+
+@mixin disable-prefix-for-all() {
+  $prefix-for-webkit:    false;
+  $prefix-for-mozilla:   false;
+  $prefix-for-microsoft: false;
+  $prefix-for-opera:     false;
+  $prefix-for-spec:      false;
+}
